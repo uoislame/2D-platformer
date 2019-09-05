@@ -11,16 +11,20 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButton("Fire1") && !IsInvoking("Shoot"))
         {
+            //How do we add a delay and limit the total number of prefabs?
             animator.SetBool("IsShooting", true);
-            Shoot();
+            InvokeRepeating("Shoot", 0f, .5f);
+        } else if(Input.GetButtonUp("Fire1")) {
+
+            animator.SetBool("IsShooting", false);
+            CancelInvoke();
         }
     }
 
     void Shoot()
     {
         Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        animator.SetBool("IsShooting", false);
     }
 }
